@@ -1,0 +1,22 @@
+services:
+  feature-flag-service:
+      build:
+        context: ./feature-flag-service
+        dockerfile: Dockerfile
+        target: development
+      command: "npm run start:debug" 
+      environment:
+        - LAUNCHDARKLY_SDK_KEY=
+        - LAUNCHDARKLY_TIMEOUT=10
+        - PORT=3000
+      ports:
+        - "3000:3000"
+        - "9229:9229"
+      networks:
+        - feature-flag-service_network
+      volumes:
+        - ./feature-flag-service:/usr/src/app
+        - /usr/src/app/node_modules
+networks:
+  feature-flag-service_network:
+    external: false
